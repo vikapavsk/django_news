@@ -8,8 +8,14 @@ Posts
 
 {% block content %}
    <h1>Все новости </h1>
-   <h3>{{ time_now|date:'d M Y' }}</h3>
+
+   <form action=""  method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Search">
+   </form>
+
    <hr>
+   <h3>{{ time_now|date:'d M Y' }}</h3>
    {% if posts %}
        <table>
            <tr>
@@ -27,7 +33,7 @@ Posts
 
        </table>
    {% else %}
-       <h2>Постов нет!</h2>
+       <h2>По выбранным критериям постов нет!</h2>
    {% endif %}
 
    {% if page_obj.has_previous %}
