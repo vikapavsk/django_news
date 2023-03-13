@@ -1,9 +1,9 @@
 from datetime import datetime
-
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from .forms import PostForm
 from .filters import PostFilter
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 
@@ -26,17 +26,22 @@ class PostDetail(DetailView):
     template_name = 'post.html'
     context_object_name = 'post'
 
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
+    raise_exception = True
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
 
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
+    raise_exception = True
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
 
 class PostDelete(DeleteView):
+    permission_required = ('news.delete_post',)
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('posts_list')
