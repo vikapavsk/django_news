@@ -26,27 +26,29 @@ class PostDetail(DetailView):
     template_name = 'post.html'
     context_object_name = 'post'
 
-class PostCreate(LoginRequiredMixin, CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_post',)
     raise_exception = True
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
 
-class PostUpdate(LoginRequiredMixin, UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = ('news.change_post',)
     raise_exception = True
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
     permission_required = ('news.delete_post',)
+    raise_exception = True
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('posts_list')
 
-class PostSearch(ListView):
+class PostSearch(LoginRequiredMixin, ListView):
+    raise_exception = True
     model = Post
     ordering = 'title'
     template_name = 'search.html'
