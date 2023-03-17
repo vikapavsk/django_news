@@ -18,26 +18,46 @@ Posts
    {% if posts %}
        <table>
            <tr>
-               <td>Заголовок</td>
-               <td>Дата публикации</td>
-               <td>Текст</td>
-
+               <td>
+                   Заголовок
+               </td>
+               <td>
+                   Дата публикации
+               </td>
+               <td>
+                   Текст
+               </td>
+               <td>
+                   Категория
+               </td>
                {% if perms.news.change_post or perms.news.delete_post %}
-               <td>Действия</td>
+               <td>
+                   Действия
+               </td>
                {% endif %}
            </tr>
            {% for post in posts %}
            <tr>
-               <td><a class="nav-link" href="{% url 'post_detail' post.id %}">{{ post.title|censor }}</a></td>
-               <td>{{ post.dateCreation }}</td>
-               <td>{{ post.text|censor|truncatechars:21 }}</td>
-
+               <td>
+                   <a class="nav-link" href="{% url 'post_detail' post.id %}">{{ post.title|censor }}</a>
+               </td>
+               <td>
+                   {{ post.dateCreation }}
+               </td>
+               <td>
+                   {{ post.text|censor|truncatechars:21 }}
+               </td>
+               <td>
+                   {% for category in post.category.all %}
+                   <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                   {% endfor %}
+               </td>
                <td>
                     {% if perms.news.change_post %}
-                    <a href="{% url 'post_update' pk=post.id %}">Изменить</a>
+                    <a href="{% url 'post_update' pk=post.id %}"><u>Изменить</u></a>
                     {% endif %}
                     {% if perms.news.delete_post %}
-                    <a href="{% url 'post_delete' post.id %}">Удалить</a>
+                    <a href="{% url 'post_delete' post.id %}"><u>Удалить</u></a>
                     {% endif %}
                 </td>
            </tr>

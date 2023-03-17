@@ -40,12 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'news',
+    'news.apps.PostsConfig',
     'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request',
             ],
         },
     },
@@ -148,7 +148,35 @@ LOGIN_REDIRECT_URL = "/posts"
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "vikavinograd0@yandex.ru"
+EMAIL_HOST_PASSWORD = "klzszpgpdjwlyxeo"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+SITE_URL = 'http://127.0.0.1:8000'
+
+DEFAULT_FROM_EMAIL = "vikavinograd0@yandex.ru"
+
+SERVER_EMAIL = "vikavinograd0@yandex.ru"
+
+MANAGERS = (
+    ('Victoria', 'vikavinograd1@gmail.com'),
+)
+ADMINS = (
+    ('Victoria', 'vikavinograd1@gmail.com'),
+)
+
+EMAIL_SUBJECT_PREFIX = ''
+
+APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
+
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
